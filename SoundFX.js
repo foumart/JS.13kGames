@@ -13,7 +13,7 @@ var SoundFX = (function() {
 		oscillator.type = oscTypes[_type || 0];
 		
 		var modulationGain = soundContext.createGain(); // instantiate modulation for sound volume control
-		modulationGain.gain.value = 1;
+		modulationGain.gain.value = 0;
 		
 		oscillator.connect(modulationGain);
 		modulationGain.connect(soundContext.destination);
@@ -39,13 +39,13 @@ var SoundFX = (function() {
 		playSound:playSound,
 		
 		jump:function(){
-			playSound(50, 30, 15, 20, 0.5);
+			playSound(150, 30, 15, 20, 0.5);
 		},
 		pew:function(){
 			playSound(650, -50, 20, 15, 0.5);
 		},
 		zap:function(){
-			playSound(200, -100, 10, 15, 0.5);
+			playSound(500, -200, 40, 10, 0.25, 1);
 		},
 		bounce:function(){
 			playSound(260, -60, 15, 15, 0.5, 2);
@@ -65,7 +65,7 @@ var SoundFX = (function() {
 			playSound(1500, -150, 30, 10, 0.1, 1);
 		},
 		coin:function(){
-			playSound(480, 1, 10, 20, 0.1);
+			playSound(480, 1, 10, 20, 0.2);
 			setTimeout(function(){playSound(2550, 1, 10, 50, 0.5);}, 100);
 		}
 	}
