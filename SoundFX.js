@@ -42,7 +42,7 @@ var SoundFX = (function() {
 			playSound(150, 30, 15, 20, 0.5);
 		},
 		pew:function(){
-			playSound(650, -50, 20, 15, 0.5);
+			playSound(920, -60, 20, 15, 0.5);
 		},
 		zap:function(){
 			playSound(500, -200, 40, 10, 0.25, 1);
@@ -60,13 +60,13 @@ var SoundFX = (function() {
 			playSound(200, -4, 10, 100, 0.25, 2);
 		},
 		shot:function(){
-			playSound(150, 20, 10, 10, 0.5, 1);
+			playSound(160, 10, 15, 10, 0.1);
 			playSound(250, -20, 30, 10, 0.1, 1);
 			playSound(1500, -150, 30, 10, 0.1, 1);
 		},
 		coin:function(){
-			playSound(480, 1, 10, 20, 0.2);
-			setTimeout(function(){playSound(2550, 1, 10, 50, 0.5);}, 100);
+			playSound(480, 1, 15, 20, 0.1);
+			setTimeout(function(){playSound(2550, 1, 10, 50, 0.2);}, 100);
 		}
 	}
 })();
