@@ -14,3 +14,9 @@ Basic sound effect controller utilizing the Web Audio API (AudioContext's Oscill
 Check SoundFX in action: http://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFX/
 
 Web Audio API reference: https://www.w3.org/TR/webaudio/
+
+## TweenFX
+Basic DOM element style tweener. Currently working on it...
+
+Check TweenFX in action: http://www.foumartgames.com/dev/js13kGames/js_libraries/TweenFX/
+
