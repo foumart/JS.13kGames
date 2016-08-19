@@ -129,3 +129,20 @@ Check SoundFX in action: http://www.foumartgames.com/dev/js13kGames/js_libraries
 -
 
 Web Audio API reference: https://www.w3.org/TR/webaudio/
+
+
+
+# TypeFX
+Lightweight Font < 1.5kb - uses canvas to draw glyphs
+
+## Global Methods:
+### TypeFX.drawText(element, text, size, leading, color)
+Example:
+```javascript
+var text = "This is a test string\rWith line break.";
+var element = document.createElement("div");
+document.body.appendChild(element);
+TypeFX.drawText(element, text, 5);
+```
+-
+### TypeFX.drawDiggit(element, charCode or a glyph sring, size, color)
