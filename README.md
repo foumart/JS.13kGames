@@ -1,12 +1,24 @@
 # JS.13kGames
-Lightweight libraries prepared for js13kGames game jam. Theme to be announced in 13 AUG 2016
+Lightweight libraries prepared for js13kGames JavaScript coding competition.
 
-Visit the game jam web page: http://js13kgames.com/
+
+#### TweenFX.js - basic tweener for styles and transforms in 900 bytes
+#### SoundFX.js - sound controller with 9 predefined sound effects in 750 bytes
+#### TypeFX.js - pixel font with a full glyph set (10x5px size) in 1250 bytes
+
+-
+
+Visit the compo web page: http://js13kgames.com/
+
+Theme for 2016 game jam is "GLITCH"
+
+-
 
 For updates follow me on Twitter: <a href="https://twitter.com/FoumartGames" target="_blank">@FoumartGames</a>
 
-### Libraries under 1kb
-All libraries are available here for review: http://www.foumartgames.com/dev/js13kGames/js_libraries/
+### Demos:
+http://www.foumartgames.com/dev/js13kGames/js_libraries/
+
 
 -
 -
@@ -130,7 +142,8 @@ Check SoundFX in action: http://www.foumartgames.com/dev/js13kGames/js_libraries
 
 Web Audio API reference: https://www.w3.org/TR/webaudio/
 
-
+-
+-
 
 # TypeFX
 Lightweight Font < 1.5kb - uses canvas to draw glyphs
