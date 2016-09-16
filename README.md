@@ -8,7 +8,7 @@ Lightweight libraries prepared for js13kGames JavaScript coding competition.
 
 -
 
-Visit the compo web page: http://js13kgames.com/
+Visit the compo web page: http://js13kgames.com/ or follow these twitter tags: [~~#~~js13k](https://twitter.com/search?src=typd&q=%23js13k) ; [~~#~~js13kgames](https://twitter.com/search?src=typd&q=%23js13kgames)
 
 Theme for 2016 game jam is "GLITCH"
 
