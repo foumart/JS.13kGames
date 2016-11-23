@@ -117,6 +117,8 @@ Basic sound effect controller utilizing the Web Audio API (AudioContext's Oscill
 
 Check SoundFX in action: http://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFX/
 
+JSFiddle: https://jsfiddle.net/Foumart/1bdk8ks2/
+
 ## Global Methods:
 ### SoundFX.playSound(startFrequency, frequencyChange, delay, repeat, volume, type)
 #### type:
@@ -158,4 +160,4 @@ document.body.appendChild(element);
 TypeFX.drawText(element, text, 5);
 ```
 -
-### TypeFX.drawDiggit(element, charCode or a glyph sring, size, color)
+### TypeFX.drawDiggit(element, charCode or a glyph string, size, color)
