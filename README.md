@@ -17,8 +17,6 @@ For updates follow me on Twitter: <a href="https://twitter.com/FoumartGames" tar
 ### Demos:
 http://www.foumartgames.com/dev/js13kGames/js_libraries/
 
-
----
 ---
 
 # TweenFX
@@ -40,6 +38,7 @@ Example of performing two consecutive tweens with a callback:
 ```javascript
 TweenFX.to(element, 10, {x:100, y:100}, TweenFX.to, element, 10, {x:0, y:0});
 ```
+
 ---
 
 ### TweenFX.pause
@@ -61,6 +60,7 @@ TweenFX.pause(null);
 ```
 
 ---
+
 ### TweenFX.stop
 Stop the tweens of an element:
 ```javascript
@@ -72,6 +72,7 @@ TweenFX.stop();
 ```
 
 ---
+
 ### TweenFX.getValue
 Extracts the "left" property floating number from an element's style:
 ```javascript
@@ -79,6 +80,7 @@ TweenFX.getValue(element, "left");
 ```
 
 ---
+
 ### TweenFX.getTransform
 Extracts the "rotate" property angle degrees from an element's transform:
 ```javascript
@@ -90,6 +92,7 @@ TweenFX.getTransform(element);
 ```
 
 ---
+
 ### Tweenable styles:
 * {opacity} - num - tweens style.opacity, also recognized as {alpha}
 * {left} - px - tweens style.left, also recognized as {x}
@@ -105,8 +108,6 @@ TweenFX.getTransform(element);
 * {scaleX} - num - tweens style.transform(scaleX);
 * {scaleY} - num - tweens style.transform(scaleY);
 * {rotate} - deg - tweens style.transform(rotate), also recognized as {rotation}
-
----
 
 ---
 
@@ -143,7 +144,6 @@ JSFiddle: https://jsfiddle.net/Foumart/1bdk8ks2/
 Web Audio API reference: https://www.w3.org/TR/webaudio/
 
 ---
----
 
 # TypeFX
 Lightweight Font < 1.5kb - uses canvas to draw glyphs
@@ -157,5 +157,7 @@ var element = document.createElement("div");
 document.body.appendChild(element);
 TypeFX.drawText(element, text, 5);
 ```
+
 ---
+
 ### TypeFX.drawDiggit(element, charCode or a glyph string, size, color)
