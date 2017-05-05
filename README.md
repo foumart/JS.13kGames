@@ -17,7 +17,7 @@ For updates follow me on Twitter: <a href="https://twitter.com/FoumartGames" tar
 ### Demos:
 http://www.foumartgames.com/dev/js13kGames/js_libraries/
 
-#
+---
 
 # TweenFX
 Basic DOM element style tweener.
@@ -110,7 +110,7 @@ TweenFX.getTransform(element);
 * {scaleY} - num - tweens style.transform(scaleY);
 * {rotate} - deg - tweens style.transform(rotate), also recognized as {rotation}
 
-#
+---
 
 # SoundFX
 Basic sound effect controller utilizing the Web Audio API (AudioContext's Oscillator and Gain)
@@ -138,15 +138,17 @@ JSFiddle: https://jsfiddle.net/Foumart/1bdk8ks2/
 * SoundFX.shot()
 * SoundFX.coin()
 
-#### SoundFX.setVolume()
+### SoundFX.setVolume(_volume:Number)
+Set the master volume to the number provided (float:0-1)
 
-#### SoundFX.getVolume()
+### SoundFX.getVolume()
+Get the master volume
 
 #
 
 Web Audio API reference: https://www.w3.org/TR/webaudio/
 
-#
+---
 
 # TypeFX
 Lightweight Font < 1.5kb - uses canvas to draw glyphs
