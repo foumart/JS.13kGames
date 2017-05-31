@@ -17,6 +17,10 @@ For updates follow me on Twitter: <a href="https://twitter.com/FoumartGames" tar
 ### Demos:
 http://www.foumartgames.com/dev/js13kGames/js_libraries/
 
+### SoundFX Generator:
+http://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFXGenerator/
+
+
 ---
 
 # TweenFX
