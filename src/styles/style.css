@@ -1,0 +1,13 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background-color: black;
+}
+
+div, canvas {
+	user-select: none;
+	touch-action: none;
+}

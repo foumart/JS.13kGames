@@ -1,0 +1,48 @@
+{
+	"name": "js13k_template",
+	"version": "0.0.1",
+	"description": "js13k progressive web app starter pack",
+	"keywords": [
+		"js13k",
+		"pwa",
+		"template"
+	],
+	"monetization" : "$ilp.uphold.com/MwfgyiykYARL",
+	"main": "src/scripts/app.js",
+	"scripts": {
+		"test": "gulp zip --dir public --test",
+		"pack": "npx del-cli public --force && gulp pack --dir public",
+		"build": "npx del-cli public --force && gulp --dir public",
+		"build:mobile": "npx del-cli public --force && gulp --dir public --mobile",
+		"build:social": "npx del-cli public --force && gulp --dir public --social",
+		"build:all": "npx del-cli public --force && gulp --dir public --all",
+		"debug": "npx del-cli public --force && gulp --debug --dir public",
+		"start": "npm run build && npm run server",
+		"server": "http-server -o"
+	},
+	"author": {
+		"name": "Noncho Savov",
+		"email": "contact@foumartgames.com",
+		"url": "https://www.foumartgames.com/"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"google-closure-compiler": "^20200719.0.0",
+		"gulp": "^4.0.2",
+		"gulp-advzip": "^1.3.0",
+		"gulp-check-filesize": "^2.0.1",
+		"gulp-clean-css": "^4.3.0",
+		"gulp-concat": "^2.6.1",
+		"gulp-html-replace": "^1.6.2",
+		"gulp-htmlmin": "^5.0.1",
+		"gulp-if": "^3.0.0",
+		"gulp-imagemin": "^7.1.0",
+		"gulp-minify": "^3.1.0",
+		"gulp-string-replace": "^1.1.2",
+		"gulp-terser": "^1.4.0",
+		"gulp-zip": "^5.0.2",
+		"del-cli": "^3.0.1",
+		"http-server": "^0.12.3",
+		"yargs": "^17.0.1"
+	}
+}

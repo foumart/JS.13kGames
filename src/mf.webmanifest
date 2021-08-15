@@ -1,0 +1,16 @@
+{
+	"name": "{TITLE}",
+	"start_url": "index.html",
+	"serviceworker": {
+		"src":"service_worker.js"
+	},
+	"icons": [
+		{
+			"src":"ico.svg",
+			"type":"image/svg",
+			"sizes":"144x144"
+		}
+	],
+	"display": "fullscreen",
+	"orientation": "any"
+}
