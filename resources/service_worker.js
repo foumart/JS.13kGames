@@ -1,8 +1,4 @@
-/* To force update on all clients you have to change the version number.
-   Keep in mind that browsers consider the service worker updated only
-   if it is byte-different and changing a single digit is not enough..
-   Just type a random string here to ensure update: qweqweqhdfhdfh
-*/
+/* Service Worker is needed to enable Progressive Web App */
 
 var version = "{ID_NAME}_{VERSION}";
 var debug;

@@ -1,1 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 89"><defs><style>.a{fill:#51c;}</style></defs><title>icon_144</title><path class="a" d="M103,117.5l36-89H115.1L90.6,86,73.1,28.5H54.8L36.1,86,22.9,59.8,11,96.7l11.9,20.8H46.4L63.3,65.9l16.2,51.6Z" transform="translate(-11 -28.5)"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 20.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="144px"
+	 height="144px" viewBox="0 0 144 144" style="enable-background:new 0 0 144 144;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#5A0FC8;}
+	.st1{fill:#FFFFFF;}
+</style>
+<g id="Layer_2">
+	<rect class="st0" width="144" height="144"/>
+</g>
+<g id="Layer_1">
+	<g>
+		<path class="st1" d="M103,117.5l36-89h-23.9L90.6,86L73.1,28.5H54.8L36.1,86L22.9,59.8L11,96.7l11.9,20.8h23.5l16.9-51.6
+			l16.2,51.6H103z"/>
+	</g>
+</g>
+</svg>
