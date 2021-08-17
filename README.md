@@ -1,4 +1,28 @@
 # JS.13kGames
+
+### Progressive Web App starter pack
+
+#### Setup
+1. Run `npm install` to install build dependencies.
+
+2. Run `npm start` to build the game, report archive size and serve the game locally into a new browser tab at http://localhost:8080/
+
+---
+
+#### Note
+
+This is work in progress for JS13k 2021. All the old `Less than 1kb libraries` will be revised at later stage.
+
+I will use this as template for my new 2021 compo entry and will make revision during development of the game.
+
+There is no Live reload implemented in the template yet.
+
+---
+
+### Less than 1kb libraries old Readme
+
+---
+
 Lightweight libraries prepared for js13kGames JavaScript coding competition.
 
 
