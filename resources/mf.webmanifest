@@ -8,7 +8,7 @@
 		{
 			"src": "ico.svg",
 			"type": "image/svg+xml",
-			"sizes": "144x144",
+			"sizes": "512x512",
 			"purpose": "any"
 		}
 	],

@@ -26,11 +26,11 @@ self.addEventListener("install", (event) => {
 		*/
 		caches.open(version).then((cache) => {
 			/* After the cache is opened, it is filled with the resources needed for
-			   the offline functioning of the app.
+			   the offline functioning of the app. Notice the ship.png in assets:
 			*/
 			return cache.addAll(
 				[
-					"index.html", "ico.svg"
+					"index.html", "ico.svg", "assets/ship.png"
 				]
 			);
 		}).then(() => {

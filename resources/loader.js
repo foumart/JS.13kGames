@@ -17,7 +17,7 @@ function checkMonetization() {
 
 function updateMonetization() {
 	_monetization = true;
-	// update ui
+	//...
 }
 
 
@@ -28,7 +28,7 @@ document.addEventListener("fullscreenchange", updateFullscreen);
 
 function updateFullscreen() {
 	_fullscreen = document.fullscreenElement;
-	// update ui
+	//...
 }
 
 // trigger fullscreen

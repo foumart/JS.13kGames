@@ -43,7 +43,7 @@ const debug = argv.debug != undefined ? true : false;
 const mobile = argv.mobile != undefined || argv.all != undefined ? `
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" sizes="144x144" href="ico.svg"/>` : false;
+<link rel="apple-touch-icon" sizes="512x512" href="ico.svg"/>` : false;
 
 // should html tags for social media be included. Adds around 500 bytes, depending on description length.
 const social = argv.social != undefined || argv.all != undefined ? `
