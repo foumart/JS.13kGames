@@ -15,9 +15,9 @@
 
 This is work in progress for JS13k 2021. All the old `Less than 1kb libraries` will be revised at later stage.
 
-I am using this template for my new 2021 compo entry. The template itself is feature-ready.
+I am using this template for my new 2021 compo entry. Progressive Web App is working even with offline support.
 
-Progressive Web App is tested and working. Offline support not quite ready yet. Stay tuned.
+But for some reason `Add to Home screen` prompt is not displayed on mobile - have to investigate why. Stay tuned.
 
 ---
 
