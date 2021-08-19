@@ -1,32 +1,48 @@
-# JS.13kGames
+# 13kGames Progressive Web App starter pack
 
-### Progressive Web App starter pack
+This template targets the compo's Mobile and Web Monetization categories.
 
-#### Setup
-1. Run `npm install` to install build dependencies.
+## Installation
+Run **`npm install`** to install build dependencies.
 
-2. Run `npm build` to build the game, report archive size and serve locally with browser sync live reload enabled.
+## Tasks
+**`npm build`** builds the game, reports archive size, serves locally with browser sync live reload enabled.
 
-3. Run `npm start` to quickly sync changes and reload the game, or restart the server if it has been stopped earlier.
 
----
+**`npm start`** quickly syncs changes and reloads the game, or starts the server if not currently running.
 
-#### Note
+**`npm debug`** buils the game without any minifying for easier debugging. Includes detailed console logs.
+
+## Build task parameters
+*`--pwa`* instructs to build a Progressive Web App - will add 864 bytes when zipped.
+
+*`--mobile`* adds some html tags regarding mobile and iOS icons - increases the zip filesize with 45 bytes.
+
+*`--social`* adds some html tags for SEO and social media (twitter) - will add around 100 bytes, depending on description length.
+
+## Setup
+Setup is done in the **`package.json`**. Variables you have to modify:
+
+- name
+- version
+- description
+- keywords
+- **monetization** - be sure to provide your own monetization wallet pointer.
+
+## Notes
 
 This is work in progress for JS13k 2021. All the old `Less than 1kb libraries` will be revised at later stage.
 
-I am using this template for my new 2021 compo entry. Progressive Web App is working even with offline support.
+I am using this template for my new 2021 compo entry and the Progressive Web App is working like a charm.
 
-But for some reason `Add to Home screen` prompt is not displayed on mobile - have to investigate why. Stay tuned.
-
----
-
-### Less than 1kb libraries old Readme
+Be aware that SVG icons are not supported well with PWA currently because of an install prompt bug on Android: https://bugs.chromium.org/p/chromium/issues/detail?id=578122
 
 ---
 
+## Less than 1kb libraries old Readme
 Lightweight libraries prepared for js13kGames JavaScript coding competition.
 
+    These are very old libs written in <ES5 IFEEs quite a few years ago - only SoundFX has been revised relatively recently.
 
 #### TweenFX.js - basic tweener for styles and transforms in 900 bytes
 #### SoundFX.js - sound controller with 9 predefined sound effects in 750 bytes
