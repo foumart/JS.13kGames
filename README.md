@@ -50,17 +50,17 @@ Lightweight libraries prepared for js13kGames JavaScript coding competition.
 
 #
 
-Visit the compo web page: http://js13kgames.com/ or follow these twitter tags: [#js13k](https://twitter.com/search?src=typd&q=%23js13k) ; [#js13kgames](https://twitter.com/search?src=typd&q=%23js13kgames)
+Visit the compo web page: https://js13kgames.com/ or follow these twitter tags: [#js13k](https://twitter.com/search?src=typd&q=%23js13k) ; [#js13kgames](https://twitter.com/search?src=typd&q=%23js13kgames)
 
 #
 
 For updates follow me on Twitter: <a href="https://twitter.com/FoumartGames" target="_blank">@FoumartGames</a>
 
 ### Demos:
-http://www.foumartgames.com/dev/js13kGames/js_libraries/
+https://www.foumartgames.com/dev/js13kGames/js_libraries/
 
 ### SoundFX Generator:
-http://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFXGenerator/
+https://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFXGenerator/
 
 
 ---
@@ -68,7 +68,7 @@ http://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFXGenerator/
 # TweenFX
 Basic DOM element style tweener.
 
-Check TweenFX in action: http://www.foumartgames.com/dev/js13kGames/js_libraries/TweenFX/
+Check TweenFX in action: https://www.foumartgames.com/dev/js13kGames/js_libraries/TweenFX/
 
 ## Global Methods:
 ### TweenFX.to(element, duration, object, callback, arguments)
@@ -161,7 +161,7 @@ TweenFX.getTransform(element);
 # SoundFX
 Basic sound effect controller utilizing the Web Audio API (AudioContext's Oscillator and Gain)
 
-Check SoundFX in action: http://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFX/
+Check SoundFX in action: https://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFX/
 
 JSFiddle: https://jsfiddle.net/Foumart/1bdk8ks2/
 
