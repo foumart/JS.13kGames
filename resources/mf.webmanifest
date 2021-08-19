@@ -6,10 +6,9 @@
 	},
 	"icons": [
 		{
-			"src": "ico.svg",
-			"type": "image/svg+xml",
-			"sizes": "512x512",
-			"purpose": "any"
+			"src": "ico.png",
+			"type": "image/png",
+			"sizes": "144x144"
 		}
 	],
 	"display": "fullscreen",

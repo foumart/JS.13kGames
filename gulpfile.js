@@ -33,19 +33,19 @@ const dir = argv.dir || 'public';
 // don't use versioned zip file - useful for fast testing.
 const test = argv.test != undefined ? true : false;
 
-// enable progressive web app - use a service worker, webmanifest and pwa initialization scripts. Adds 900 bytes.
+// enable progressive web app - use a service worker, webmanifest and pwa initialization scripts. Adds 864 bytes.
 const pwa = argv.pwa != undefined ? true : false;
 
 // display service worker logs
 const debug = argv.debug != undefined ? true : false;
 
-// should html tags for mobile be included. Adds 100 bytes.
+// should html tags for mobile be included. Adds 45 bytes.
 const mobile = argv.mobile != undefined || argv.all != undefined ? `
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" sizes="512x512" href="ico.svg"/>` : false;
+<link rel="apple-touch-icon" sizes="144x144" href="ico.png"/>` : false;
 
-// should html tags for social media be included. Adds around 500 bytes, depending on description length.
+// should html tags for social media be included. Adds around 100 bytes, depending on description length.
 const social = argv.social != undefined || argv.all != undefined ? `
 <meta name="application-name" content="${title}"/>
 <meta name="description" content="${package.description}"/>
@@ -54,28 +54,29 @@ const social = argv.social != undefined || argv.all != undefined ? `
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="${title}"/>
 <meta name="twitter:description" content="${package.description}"/>
-<meta name="twitter:image" content="ico.svg"/>` : false;
+<meta name="twitter:image" content="ico.png"/>` : false;
 
 
-// prepare an icon used by html and pwa
+// prepare a web icon to be used by html and pwa
+// unfortunatelly we cannot use a svg icon: https://bugs.chromium.org/p/chromium/issues/detail?id=578122
 function ico(callback) {
-	src('src/ico.svg')
-		.pipe(imagemin([imagemin.svgo({
-			plugins: [
-				{removeViewBox: false},
-				{cleanupIDs: true}
-			]
-		})]))
+	src(['src/ico.png'], { allowEmpty: true })
+		.pipe(imagemin([imagemin.optipng({optimizationLevel: 7})]))
 		.pipe(dest(dir + '/'))
 		.on('end', callback)
 }
 
 // compress other graphical assets
 function assets(callback) {
-	src('src/assets/*')
+	src(['src/assets/*'], { allowEmpty: true })
+		// optimize PNGs
 		.pipe(imagemin([imagemin.optipng({optimizationLevel: 7})]))
-		.pipe(imagemin([imagemin.gifsicle({interlaced: true})]))
-		.pipe(imagemin([imagemin.mozjpeg({quality: 75, progressive: true})]))
+		// optimize GIFs
+		//.pipe(imagemin([imagemin.gifsicle({interlaced: true})]))
+		// optimize JPGs
+		//.pipe(imagemin([imagemin.mozjpeg({quality: 75, progressive: true})]))
+		// optimize SVGs
+		//.pipe(imagemin([imagemin.svgo({plugins: [{removeViewBox: false}, {cleanupIDs: true}]})
 		.pipe(dest(dir + '/assets/'))
 		.on('end', callback)
 }
@@ -133,7 +134,6 @@ function app(callback) {
 						language_out: 'ECMASCRIPT6'
 					})
 				))
-				.pipe(gulpif(!debug, replace('"use strict";', '', replaceOptions)))
 				.pipe(gulpif(!debug, minify({ noSource: true })))
 				.pipe(concat('temp.js'))
 				.pipe(dest(dir + '/tmp/'))
@@ -189,6 +189,7 @@ function pack(callback) {
 		.pipe(replace('"', '', replaceOptions))
 		.pipe(replace('rep_css', '<style>' + fs.readFileSync(dir + '/tmp/temp.css', 'utf8') + '</style>', replaceOptions))
 		.pipe(replace('rep_js', '<script>' + fs.readFileSync(dir + '/tmp/temp.js', 'utf8') + '</script>', replaceOptions))
+		.pipe(gulpif(!debug, replace('"use strict";', '', replaceOptions)))
 		.pipe(concat('index.html'))
 		.pipe(dest(dir + '/'))
 		.on('end', callback);
@@ -202,7 +203,7 @@ function clean(callback) {
 
 // package zip
 function archive(callback) {
-	src(dir + '/*')
+	src([dir + '/*'], { allowEmpty: true })
 		.pipe(zip(test ? 'game.zip' : 'game_' + timestamp + '.zip'))
 		.pipe(advzip({ optimizationLevel: 4, iterations: 100 }))
 		.pipe(dest('zip/'))

@@ -1,8 +1,11 @@
-/* Service Worker is needed to enable Progressive Web App */
+// Service Worker script to enable PWA and offline support
 
 var version = "{ID_NAME}_{VERSION}";
 var debug;
 var name = "[SW] "+version+": ";
+
+// Update the following list with all the needed files, so the game will work offline.
+var files = [ "index.html", "ico.png", "assets/ship.png" ];
 
 if (debug) console.log(name+"%cService Worker initialized", "color:#3333cc");
 
@@ -26,13 +29,9 @@ self.addEventListener("install", (event) => {
 		*/
 		caches.open(version).then((cache) => {
 			/* After the cache is opened, it is filled with the resources needed for
-			   the offline functioning of the app. Notice the ship.png in assets:
+			   the offline functioning of the app.
 			*/
-			return cache.addAll(
-				[
-					"index.html", "ico.svg", "assets/ship.png"
-				]
-			);
+			return cache.addAll(files);
 		}).then(() => {
 			if(debug) console.log(name+"%cInstall complete", "color:#339933");
 		})

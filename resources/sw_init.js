@@ -3,28 +3,7 @@
 // Set debug to true if you want to see logs about caching / fetching of resources and other output.
 let _debug;
 
-// If the game is being run as a PWA in its own window, separate from the browser.
-let _standalone;
-
-// Track the install banner shown on mobile.
-window.addEventListener("beforeinstallprompt", beforeInstallPrompt);
-
-function beforeInstallPrompt(event) {
-	event.userChoice.then(choiceResult => {
-		if (_debug) console.log("PWA install prompt user choise:" + choiceResult);
-		//...
-	});
-	// Prevent it from triggering again on 'Add' or 'Cancel' click.
-	window.removeEventListener("beforeinstallprompt", beforeInstallPrompt);
-}
-
-// Listen for the event on successfull install.
-window.addEventListener("appinstalled", event => {
-	if (_debug) console.log("PWA installed successfully!");
-	//...
-});
-
-// Progressive web apps can work only on secure connections.
+// Progressive web apps can work only with secure connections.
 const _online = location.protocol.substring(0, 5) === "https";
 
 // Service worker detection and installation script:
@@ -64,8 +43,57 @@ if ("serviceWorker" in navigator && _online) {
 	window.addEventListener("load", pwaInit);
 }
 
+// Record if the game is being run as a PWA in its own window, separate from the browser.
+//let _standalone;
+
 function pwaInit() {
-	_standalone = window.matchMedia('(display-mode: standalone)').matches;
+	//_standalone = window.matchMedia('(display-mode: standalone)').matches;
+	
 	// init is located in loader.js - feel free to overwrite.
 	init();
 }
+
+/*
+// Provide your own in-app install experience: https://web.dev/customize-install/
+// Here we are capturing the install prompt and invoking it later on user input:
+let _deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", beforeInstallPrompt);
+
+// Generate the user input button which will trigger the install prompt
+const _btn = document.createElement('button');
+_btn.innerHTML = "Install PWA";
+_btn.style = "display: none; position: relative; left: 50%; width: 100px; margin: 5px 0 5px -50px";
+document.body.appendChild(_btn);
+
+function beforeInstallPrompt(event) {
+	event.preventDefault();
+	_deferredPrompt = event;
+	_btn.style.display = 'block';
+
+	_btn.addEventListener('click', (e) => {
+		_btn.style.display = 'none';
+		// Show the prompt
+		_deferredPrompt.prompt();
+		// Wait for the user to respond to the prompt
+		_deferredPrompt.userChoice.then((choiceResult) => {
+			if (_debug) {
+				if (choiceResult.outcome === 'accepted') {
+					console.log('User accepted to install the app to his device home screen');
+				} else {
+					console.log('User dismissed install prompt');
+				}
+			}
+			// Prevent triggering again the prompt on 'Add' or 'Cancel' click.
+			window.removeEventListener("beforeinstallprompt", beforeInstallPrompt);
+			_deferredPrompt = null;
+		});
+	});
+}
+
+// Listen for the event on successfull install.
+window.addEventListener("appinstalled", event => {
+	if (_debug) console.log("PWA installed successfully!");
+	//...
+});
+*/

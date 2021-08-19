@@ -31,7 +31,7 @@ function updateFullscreen() {
 	//...
 }
 
-// trigger fullscreen
+// toggle fullscreen mode
 function toggleFullscreen() {
 	if (!document.fullscreenElement) {
 		document.documentElement.requestFullscreen();
