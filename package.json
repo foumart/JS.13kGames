@@ -8,7 +8,7 @@
 		"pwa",
 		"template"
 	],
-	"monetization": "$ilp.uphold.com/MwfgyiykYARL",
+	"monetization": "$ilp.uphold.com/paymentpointer",
 	"main": "src/scripts/app.js",
 	"scripts": {
 		"build": "npx del-cli public --force && gulp --dir public --pwa --mobile",
@@ -31,7 +31,6 @@
 		"gulp-imagemin": "^7.1.0",
 		"gulp-minify": "^3.1.0",
 		"gulp-string-replace": "^1.1.2",
-		"gulp-terser": "^1.4.0",
 		"gulp-zip": "^5.0.2",
 		"yargs": "^17.0.1"
 	},
