@@ -6,8 +6,7 @@ This template targets the compo's Mobile and Web Monetization categories.
 Run **`npm install`** to install build dependencies.
 
 ## Tasks
-**`npm build`** builds the game, reports archive size, serves locally with browser sync live reload enabled.
-
+**`npm build`** builds the game, reports archive size and serves locally with browser sync live reload enabled.
 
 **`npm start`** quickly syncs changes and reloads the game, or starts the server if not currently running.
 
@@ -27,19 +26,17 @@ Setup is done in the **`package.json`**. Variables you have to modify:
 - version
 - description
 - keywords
-- **monetization** - be sure to provide your own monetization wallet pointer.
+- **monetization** - be sure to provide your own monetization wallet pointer at uphold.
 
 ## Notes
 
-This is work in progress for JS13k 2021. All the old `Less than 1kb libraries` will be revised at later stage.
+Be aware that SVG icons are not supported well with PWA currently, because of an install prompt bug on Android: https://bugs.chromium.org/p/chromium/issues/detail?id=578122
 
-I am using this template for my new 2021 compo entry and the Progressive Web App is working like a charm.
-
-Be aware that SVG icons are not supported well with PWA currently because of an install prompt bug on Android: https://bugs.chromium.org/p/chromium/issues/detail?id=578122
+All the old `Less than 1kb libraries` may be revised at later stage. You can ignore them all together.
 
 ---
 
-## Less than 1kb libraries old Readme
+## Less than 1kb libraries (old Readme)
 Lightweight libraries prepared for js13kGames JavaScript coding competition.
 
     These are very old libs written in <ES5 IFEEs quite a few years ago - only SoundFX has been revised relatively recently.
