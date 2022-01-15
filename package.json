@@ -18,7 +18,7 @@
 		"test": "gulp zip --dir public --pwa --mobile --test"
 	},
 	"devDependencies": {
-		"browser-sync": "^2.27.5",
+		"browser-sync": "2.27.7",
 		"del-cli": "^3.0.1",
 		"google-closure-compiler": "^20200719.0.0",
 		"gulp": "^4.0.2",
@@ -28,7 +28,7 @@
 		"gulp-html-replace": "^1.6.2",
 		"gulp-htmlmin": "^5.0.1",
 		"gulp-if": "^3.0.0",
-		"gulp-imagemin": "^7.1.0",
+		"gulp-imagemin": "8.0.0",
 		"gulp-minify": "^3.1.0",
 		"gulp-string-replace": "^1.1.2",
 		"gulp-zip": "^5.0.2",
