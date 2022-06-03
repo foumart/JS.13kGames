@@ -42,7 +42,7 @@
 		"isarray": "^2.0.5"
 	},
 	"dependencies": {
-		"npm": "^8.5.0"
+		"npm": "^8.11.0"
 	},
 	"repository": {
 		"type": "git",
