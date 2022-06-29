@@ -1,4 +1,6 @@
-# 13kGames Progressive Web App starter pack
+# JS13kGames Progressive Web App starter pack
+
+Visit the compo web page: https://js13kgames.com/ or follow these twitter tags: [#js13k](https://twitter.com/search?src=typd&q=%23js13k) ; [#js13kgames](https://twitter.com/search?src=typd&q=%23js13kgames)
 
 This template targets the compo's Mobile and Web Monetization categories.
 
@@ -32,26 +34,21 @@ Setup is done in the **`package.json`**. Variables you have to modify:
 
 Be aware that SVG icons are not supported well with PWA currently, because of an install prompt bug on Android: https://bugs.chromium.org/p/chromium/issues/detail?id=578122
 
-All the old `Less than 1kb libraries` may be revised at later stage. You can ignore them all together.
 
 ---
+
+#
+
+Following are very old libs written in <ES5 IFEEs in 2016 - only SoundFX has been revised relatively recently.
+
+All the old `Less than 1kb libraries` may be revised at later stage. You can ignore them all together.
 
 ## Less than 1kb libraries (old Readme)
 Lightweight libraries prepared for js13kGames JavaScript coding competition.
 
-    These are very old libs written in <ES5 IFEEs quite a few years ago - only SoundFX has been revised relatively recently.
-
 #### TweenFX.js - basic tweener for styles and transforms in 900 bytes
 #### SoundFX.js - sound controller with 9 predefined sound effects in 750 bytes
 #### TypeFX.js - pixel font with a full glyph set (10x5px size) in 1250 bytes
-
-#
-
-Visit the compo web page: https://js13kgames.com/ or follow these twitter tags: [#js13k](https://twitter.com/search?src=typd&q=%23js13k) ; [#js13kgames](https://twitter.com/search?src=typd&q=%23js13kgames)
-
-#
-
-For updates follow me on Twitter: <a href="https://twitter.com/FoumartGames" target="_blank">@FoumartGames</a>
 
 ### Demos:
 https://www.foumartgames.com/dev/js13kGames/js_libraries/
@@ -209,3 +206,7 @@ TypeFX.drawText(element, text, 5);
 #
 
 ### TypeFX.drawDiggit(element, charCode or a glyph string, size, color)
+
+#
+
+For updates follow me on Twitter: <a href="https://twitter.com/FoumartGames" target="_blank">@FoumartGames</a>
