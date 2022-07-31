@@ -1,8 +1,8 @@
 # JS13kGames Progressive Web App starter pack
 
-Visit the compo web page: https://js13kgames.com/ or follow these twitter tags: [#js13k](https://twitter.com/search?src=typd&q=%23js13k) ; [#js13kgames](https://twitter.com/search?src=typd&q=%23js13kgames)
+JS13K Games Competition: https://js13kgames.com/
 
-This template targets the compo's Mobile and Web Monetization categories.
+This template targets the compo's **Mobile** and **Web Monetization** categories.
 
 ## Installation
 Run **`npm install`** to install build dependencies.
@@ -12,7 +12,7 @@ Run **`npm install`** to install build dependencies.
 
 **`npm start`** quickly syncs changes and reloads the game, or starts the server if not currently running.
 
-**`npm debug`** buils the game without any minifying for easier debugging. Includes detailed console logs.
+**`npm debug`** builds the game without any minifying for easier debugging. Includes detailed console logs.
 
 ## Build task parameters
 *`--pwa`* instructs to build a Progressive Web App - will add 864 bytes when zipped.
@@ -28,26 +28,32 @@ Setup is done in the **`package.json`**. Variables you have to modify:
 - version
 - description
 - keywords
-- **monetization** - be sure to provide your own monetization wallet pointer at uphold.
+- **monetization** - be sure to provide your own monetization wallet pointer. More info: https://js13kgames.com/webmonetization
 
 ## Notes
 
 Be aware that SVG icons are not supported well with PWA currently, because of an install prompt bug on Android: https://bugs.chromium.org/p/chromium/issues/detail?id=578122
 
-
 ---
+#
 
 #
 
-Following are very old libs written in <ES5 IFEEs in 2016 - only SoundFX has been revised relatively recently.
+#
 
-All the old `Less than 1kb libraries` may be revised at later stage. You can ignore them all together.
+#
 
-## Less than 1kb libraries (old Readme)
+#
+
+---
+
+The following are very old libraries written in <ES5 IFEEs in 2016 - only **SoundFX** has been revised relatively recently.
+
+# Less than 1kb libraries (old Readme)
 Lightweight libraries prepared for js13kGames JavaScript coding competition.
 
-#### TweenFX.js - basic tweener for styles and transforms in 900 bytes
 #### SoundFX.js - sound controller with 9 predefined sound effects in 750 bytes
+#### TweenFX.js - basic tweener for styles and transforms in 900 bytes
 #### TypeFX.js - pixel font with a full glyph set (10x5px size) in 1250 bytes
 
 ### Demos:
@@ -56,6 +62,44 @@ https://www.foumartgames.com/dev/js13kGames/js_libraries/
 ### SoundFX Generator:
 https://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFXGenerator/
 
+
+---
+
+# SoundFX
+Basic sound effect controller utilizing the Web Audio API (AudioContext's Oscillator and Gain)
+
+Check SoundFX in action: https://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFX/
+
+JSFiddle: https://jsfiddle.net/Foumart/1bdk8ks2/
+
+## Global Methods:
+### SoundFX.playSound(startFrequency, frequencyChange, delay, repeat, volume, type)
+#### type:
+* Square
+* Sawtooth
+* Triangle
+* Sine
+
+#### built in sounds:
+* SoundFX.jump()
+* SoundFX.pew()
+* SoundFX.zap()
+* SoundFX.bounce()
+* SoundFX.stuck()
+* SoundFX.explosion()
+* SoundFX.blow()
+* SoundFX.shot()
+* SoundFX.coin()
+
+### SoundFX.setVolume(_volume:Number)
+Set the master volume to the number provided (float:0-1)
+
+### SoundFX.getVolume()
+Get the master volume
+
+#
+
+Web Audio API reference: https://www.w3.org/TR/webaudio/
 
 ---
 
@@ -152,44 +196,6 @@ TweenFX.getTransform(element);
 
 ---
 
-# SoundFX
-Basic sound effect controller utilizing the Web Audio API (AudioContext's Oscillator and Gain)
-
-Check SoundFX in action: https://www.foumartgames.com/dev/js13kGames/js_libraries/SoundFX/
-
-JSFiddle: https://jsfiddle.net/Foumart/1bdk8ks2/
-
-## Global Methods:
-### SoundFX.playSound(startFrequency, frequencyChange, delay, repeat, volume, type)
-#### type:
-* Square
-* Sawtooth
-* Triangle
-* Sine
-
-#### built in sounds:
-* SoundFX.jump()
-* SoundFX.pew()
-* SoundFX.zap()
-* SoundFX.bounce()
-* SoundFX.stuck()
-* SoundFX.explosion()
-* SoundFX.blow()
-* SoundFX.shot()
-* SoundFX.coin()
-
-### SoundFX.setVolume(_volume:Number)
-Set the master volume to the number provided (float:0-1)
-
-### SoundFX.getVolume()
-Get the master volume
-
-#
-
-Web Audio API reference: https://www.w3.org/TR/webaudio/
-
----
-
 # TypeFX
 Lightweight Font < 1.5kb - uses canvas to draw glyphs
 
@@ -208,5 +214,7 @@ TypeFX.drawText(element, text, 5);
 ### TypeFX.drawDiggit(element, charCode or a glyph string, size, color)
 
 #
+
+Follow this Twitter tags to get news about the Compo: [#js13k](https://twitter.com/search?src=typd&q=%23js13k) ; [#js13kgames](https://twitter.com/search?src=typd&q=%23js13kgames)
 
 For updates follow me on Twitter: <a href="https://twitter.com/FoumartGames" target="_blank">@FoumartGames</a>
