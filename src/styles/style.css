@@ -1,13 +1,17 @@
 * {
 	padding: 0;
 	margin: 0;
+	overflow: hidden;
 }
 
 body {
 	background-color: black;
+	color: #fff;
 }
 
 div, canvas {
 	user-select: none;
 	touch-action: none;
+	-webkit-tap-highlight-color: transparent;
+	box-sizing: border-box;
 }

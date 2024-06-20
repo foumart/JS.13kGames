@@ -6,9 +6,9 @@
 	},
 	"icons": [
 		{
-			"src": "ico.png",
-			"type": "image/png",
-			"sizes": "144x144"
+			"src": "ico.{ICON_EXTENSION}",
+			"type": "{ICON_TYPE}",
+			"sizes": "{ICON_SIZE}x{ICON_SIZE}"
 		}
 	],
 	"display": "fullscreen",

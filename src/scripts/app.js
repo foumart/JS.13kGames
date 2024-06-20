@@ -1,5 +1,5 @@
 // Example game initialization script:
-function runGame() {
+function init() {
 	const div = document.createElement('div');
 	div.innerHTML = '<div style=color:aqua;text-align:center;margin:10px>JS13k game ready to launch!</div>';
 	document.body.appendChild(div);
@@ -11,12 +11,36 @@ function runGame() {
 
 	const _btn = document.createElement('button');
 	_btn.innerHTML = 'Toggle Fullscreen';
-	_btn.style = 'position: relative; left: 50%; width: 140px; margin: 5px 0 5px -70px';
+	_btn.style = 'position:absolute;left:50%;width:150px;height:30px;margin:0 0 0 -75px;top:100px';
 	document.body.appendChild(_btn);
+	
 	_btn.addEventListener('click', (e) => {
 		toggleFullscreen();
 	});
 
+	const _play = document.createElement('button');
+	_play.innerHTML = 'PLAY!';
+	_play.style = 'position:absolute;left:50%;width:100px;height:50px;margin:0 0 0 -50px;bottom:100px';
+	document.body.appendChild(_play);
+
+	_play.addEventListener('click', (e) => {
+		playButtonClick();
+	});
+}
+
+function toggleFullscreen() {
+	if (!document.fullscreenElement) {
+		document.documentElement.requestFullscreen();
+	} else if (document.exitFullscreen) {
+		document.exitFullscreen();
+	}
+}
+
+function playButtonClick() {
+	console.log("Play!");
 	const css = window.document.styleSheets[0];
-	css.insertRule(`@keyframes fly {0% {margin-top: -90px;} 50% { margin-top: -110px; } 100% { margin-top: -90px; }}`, css.cssRules.length);
+	css.insertRule(
+		`@keyframes fly {0% {margin-top: -90px;} 50% { margin-top: -110px; } 100% { margin-top: -90px; }}`,
+		css.cssRules.length
+	);
 }

@@ -5,7 +5,7 @@ var debug;
 var name = "[SW] "+version+": ";
 
 // Update the following list with all the needed files, so the game will work offline.
-var files = [ "index.html", "ico.png", "assets/ship.png" ];
+var files = [ "index.html", "ico.{ICON_EXTENSION}" ];
 
 if (debug) console.log(name+"%cService Worker initialized", "color:#3333cc");
 
@@ -26,15 +26,18 @@ self.addEventListener("install", (event) => {
 	event.waitUntil(
 		/* The caches built-in is a promise-based API that helps you cache responses,
 		   as well as finding and deleting them.
+		   After the cache is opened, it is filled with the resources needed for
+		   the offline functioning of the app.
 		*/
-		caches.open(version).then((cache) => {
-			/* After the cache is opened, it is filled with the resources needed for
-			   the offline functioning of the app.
-			*/
-			return cache.addAll(files);
-		}).then(() => {
-			if(debug) console.log(name+"%cInstall complete", "color:#339933");
-		})
+		debug ?
+			caches.open(version).then((cache) => {
+				return cache.addAll(files);
+			}).then(() => {
+				console.log(name+"%cInstall complete", "color:#339933");
+			}) :
+			caches.open(version).then((cache) => {
+				return cache.addAll(files);
+			})
 	);
 });
 

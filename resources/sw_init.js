@@ -16,12 +16,18 @@ if ("serviceWorker" in navigator && _online) {
 		if (isRegistered) {
 			if (_debug) console.log("ServiceWorker already registered");
 		} else {
-			navigator.serviceWorker.register("service_worker.js").then(() => {
-				if (_debug) console.log("ServiceWorker registered successfully");
-			}).catch(() => {
-				if (_debug) console.log("ServiceWorker registration failed");
-				pwaInit();
-			});
+			if (_debug) {
+				navigator.serviceWorker.register("service_worker.js").then(() => {
+					console.log("ServiceWorker registered successfully");
+				}).catch(() => {
+					console.log("ServiceWorker registration failed");
+					pwaInit();
+				});
+			} else {
+				navigator.serviceWorker.register("service_worker.js").catch(() => {
+					pwaInit();
+				});
+			}
 		}
 	}).catch(() => {
 		if (_debug) console.log("ServiceWorker bypassed locally");
@@ -49,7 +55,7 @@ if ("serviceWorker" in navigator && _online) {
 function pwaInit() {
 	//_standalone = window.matchMedia('(display-mode: standalone)').matches;
 	
-	// init is located in loader.js - feel free to overwrite.
+	// to be implemented - feel free to overwrite.
 	init();
 }
 
