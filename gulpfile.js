@@ -1,36 +1,32 @@
 const { src, dest, series } = require('gulp');
 const gulp = require('gulp');
-const minify = require('gulp-minify');
 const concat = require('gulp-concat');
 const htmlmin = require('gulp-htmlmin');
 const replace = require('gulp-string-replace');
-const htmlreplace = require('gulp-html-replace');
 const cleanCSS = require('gulp-clean-css');
 const browserSync = require('browser-sync').create();
 const closureCompiler = require('google-closure-compiler').gulp();
-const del = require('del');
 const argv = require('yargs').argv;
 const gulpif = require('gulp-if');
-const imagemin = require('gulp-imagemin');
-const svgmin = require('gulp-svgo');
-const zip = require('gulp-zip');
 const advzip = require('gulp-advzip');
 const roadroller = require('roadroller');
-const package = require('./package.json');
+const packageJson = require('./package.json');
+
+// import ES modules
+let imagemin, optipng, svgo, gifsicle, mozjpeg;
+let del, zip, js, css;
 
 const replaceOptions = { logs: { enabled: false } };
 const timestamp = getDateString();
 
 // Data taken directly from package.json
-const name = package.name;
-const title = package.title;
+const name = packageJson.name;
+const title = packageJson.title;
 const id_name = `${name.replace(/\s/g, '')}`;//_${getDateString(true)}
-const version = package.version;
-const iconExtension = package.iconExtension;
-const iconType = package.iconType;
-const iconSize = package.iconSize;
-
-let js, css;
+const version = packageJson.version;
+const iconExtension = packageJson.iconExtension;
+const iconType = packageJson.iconType;
+const iconSize = packageJson.iconSize;
 
 // Script Arguments:
 // --dir: set the output directory
@@ -48,37 +44,54 @@ const debug = argv.debug != undefined ? true : false;
 // --roadroll: use a JS packer for up to 15% compression
 const roadroll = argv.roadroll != undefined ? true : false;
 
-// --mobile: should html tags for mobile be included. Adds 42 bytes.
+// --mobile: should html` tags for mobile be included. Adds 42 bytes.
 const mobile = argv.mobile != undefined || argv.all != undefined ? `
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="apple-touch-icon" sizes="${iconSize}x${iconSize}" href="ico.${iconExtension}"/>` : false;
 
 // --social: should html tags for social media be included. Adds around 100 bytes, depending on description length.
+// TODO: quotes should not be removed for content that has space characters
 const social = argv.social != undefined || argv.all != undefined ? `
 <meta name="application-name" content="${title}"/>
-<meta name="description" content="${package.description}"/>
-<meta name="keywords" content="${package.keywords}"/>
-<meta name="author" content="${package.author.name}"/>
+<meta name="description" content="${packageJson.description}"/>
+<meta name="keywords" content="${packageJson.keywords}"/>
+<meta name="author" content="${packageJson.author.name}"/>
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="${title}"/>
-<meta name="twitter:description" content="${package.description}"/>
+<meta name="twitter:description" content="${packageJson.description}"/>
 <meta name="twitter:image" content="ico.${iconExtension}"/>` : false;
 
 // Prepare a web icon to be used by html and pwa
 function ico(callback) {
-	if (iconExtension == "svg") {
-		src(['src/ico.svg'], { allowEmpty: true })
-			//.pipe(htmlmin({ collapseWhitespace: true }))
-			.pipe(svgmin())
-			.pipe(dest(dir + '/'))
-			.on('end', callback)
-	} else {
-		src(['src/ico.png'], { allowEmpty: true })
-			.pipe(imagemin([imagemin.optipng({optimizationLevel: 7})]))
-			.pipe(dest(dir + '/'))
-			.on('end', callback)
-	}
+	(async () => {
+		const gulpImageminModule = await import('gulp-imagemin');
+		imagemin = gulpImageminModule.default;
+		gifsicle = gulpImageminModule.gifsicle;
+		mozjpeg = gulpImageminModule.mozjpeg;
+		optipng = gulpImageminModule.optipng;
+		svgo = gulpImageminModule.svgo;
+
+		if (iconExtension == "svg") {
+			src(['src/ico.svg'], { allowEmpty: true })
+				.pipe(imagemin({silent: true, verbose: false}, [svgo()]))
+				.pipe(dest(dir + '/'))
+				.on('end', callback)
+		} else {
+			src(['src/ico.png'], { allowEmpty: true, encoding: false })
+				.pipe(imagemin({silent: true, verbose: false}, [optipng()]))
+				.pipe(dest(dir + '/'))
+				.on('end', callback)
+		}
+	})();
+}
+
+// Compress other graphical assets (if any)
+function assets(callback) {
+	src(['src/assets/*'], { allowEmpty: true, encoding: false })
+		.pipe(imagemin({silent: true, verbose: false}, [optipng(), gifsicle(), mozjpeg(), svgo()]))
+		.pipe(dest(dir + '/assets/'))
+		.on('end', callback);
 }
 
 // Prepare service worker script
@@ -99,7 +112,6 @@ function sw(callback) {
 				})
 			))
 			.pipe(gulpif(!debug, replace('window.caches', 'caches', replaceOptions)))
-			.pipe(gulpif(!debug, minify({ noSource: true })))
 			.pipe(gulpif(!debug, replace('"use strict";', '', replaceOptions)))
 			.pipe(concat('sw.js'))
 			.pipe(dest(dir + '/'))
@@ -131,7 +143,6 @@ function app(callback) {
 				externs: 'resources/externs.js'
 			})
 		))
-		//.pipe(gulpif(!debug, minify({ noSource: true })))
 		.pipe(concat('app.js'))
 		.pipe(dest(dir + '/tmp/'))
 		.on('end', callback);
@@ -161,21 +172,6 @@ function mf(callback) {
 	} else {
 		callback();
 	}
-}
-
-// Compress other graphical assets (if any)
-function assets(callback) {
-	src(['src/assets/*'], { allowEmpty: true })
-		// optimize PNGs
-		.pipe(imagemin([imagemin.optipng({optimizationLevel: 7})]))
-		// optimize GIFs
-		//.pipe(imagemin([imagemin.gifsicle({interlaced: true})]))
-		// optimize JPGs
-		//.pipe(imagemin([imagemin.mozjpeg({quality: 75, progressive: true})]))
-		// optimize SVGs
-		//.pipe(imagemin([imagemin.svgo({plugins: [{removeViewBox: false}, {cleanupIDs: true}]})
-		.pipe(dest(dir + '/assets/'))
-		.on('end', callback)
 }
 
 // Read the temporary JS and CSS files and compress the javascript with Roadroller
@@ -223,13 +219,10 @@ function pack(callback) {
 		.pipe(replace('{TITLE}', title, replaceOptions))
 		.pipe(replace('{ICON_EXTENSION}', iconExtension, replaceOptions))
 		.pipe(replace('{ICON_TYPE}', iconType, replaceOptions))
-		.pipe(gulpif(social != false && mobile != false, htmlreplace({'mobile': mobile, 'social': social})))
-		.pipe(gulpif(social === false && mobile != false, htmlreplace({'mobile': mobile, 'social': ''})))
-		.pipe(gulpif(social != false && mobile === false, htmlreplace({'mobile': '', 'social': social})))
-		.pipe(gulpif(social === false && mobile === false, htmlreplace({'mobile': '', 'social': ''})))
+		.pipe(replace('rep_social', social != false ? social : '', replaceOptions))
+		.pipe(replace('rep_mobile', mobile != false ? mobile : '', replaceOptions))
 		.pipe(gulpif(!pwa, replace('<link rel="manifest" href="mf.webmanifest">', '', replaceOptions)))
 		.pipe(htmlmin({ collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true }))
-		//.pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
 		.pipe(replace('"', '', replaceOptions))
 		.pipe(replace('rep_css', '<style>' + css + '</style>', replaceOptions))
 		.pipe(replace('rep_js', '<script>' + js + '</script>', replaceOptions))
@@ -238,19 +231,34 @@ function pack(callback) {
 		.on('end', callback);
 }
 
+// Delete the public folder at the beginning
+function prep(callback) {
+	(async () => {
+		del = (await import('del')).deleteAsync;
+		del(dir);
+		callback();
+	})();
+}
+
 // Delete the temporary folder generated during packaging
-function clean() {
-	return del(dir + '/tmp/');
+function clean(callback) {
+	del(dir + '/tmp/');
+	callback();
 }
 
 // Package zip (exclude any fonts that are used locally, like Twemoji.ttf)
 function archive(callback) {
 	if (debug) callback();
-	else src([dir + '/*', dir + '/*/*', '!'+ dir + '/*.ttf'], { allowEmpty: true })
-		.pipe(zip(test ? 'game.zip' : 'game_' + timestamp + '.zip'))
-		.pipe(advzip({ optimizationLevel: 4, iterations: 10 }))
-		.pipe(dest('zip/'))
-		.on('end', callback);
+	else {
+		(async () => {
+			zip = (await import('gulp-zip')).default;
+			src([dir + '/*', dir + '/*/*', '!'+ dir + '/*.ttf'], { allowEmpty: true })
+				.pipe(zip(test ? 'game.zip' : 'game_' + timestamp + '.zip'))
+				.pipe(advzip({ optimizationLevel: 4, iterations: 10 }))
+				.pipe(dest('zip/'))
+				.on('end', callback);
+		})();
+	}
 }
 
 // Output the zip filesize
@@ -304,7 +312,7 @@ function getDateString(shorter) {
 }
 
 // Exports
-exports.default = series(ico, sw, app, cs, mf, mangle, assets, pack, clean, archive, check, watch);
+exports.default = series(prep, ico, sw, app, cs, mf, mangle, assets, pack, clean, archive, check, watch);
 exports.sync = series(app, cs, mangle, assets, pack, clean, reload);
 exports.zip = series(archive, check);
 
