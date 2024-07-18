@@ -2,11 +2,11 @@
 
 JS13K Games Competition website: https://js13kgames.com/
 
-This template targets the compo's **Mobile** category by providing a convenient way to build tiny Progressive Web Apps.
+This template targets the compo's **Mobile** category by providing a convenient way to build Progressive Web Apps.
 
-PWAs at minimum need a service worker script, web manifest and icon files, increasing the final archive size by around a kilobyte - something to keep in mind.
+PWAs at minimum need a service worker script, web manifest and icon files, which increases the final archive size by around a kilobyte.
 
-The template also uses Google Closure Compiler to parse JS code and a sophisticated Gulp process packs it along with any CSS into a single HTML file for best compression. Further, the outputted archive is squashed even more with the Roadroller JS packer.
+The template also uses a sophisticated Gulp process to parse JS code with Google Closure Compiler and to pack it along with any CSS into a single minified HTML file. Additional compression is achieved utilizing Roadroller JS packer. Once successfully built the game will be opened in the default browser with BrowserSync live-reload enabled. Any modification in src/ folder will invoke a game reload on the localhost.
 
 ## Installation
 Run **`npm install`** to install build dependencies.
@@ -17,6 +17,8 @@ Run **`npm install`** to install build dependencies.
 **`npm debug`** builds the game without any minifying for easier debugging. Includes detailed console logs.
 
 **`npm test`** repacks the contents of the public folder to report archive filesize.
+
+**`npm sync`** rebuilds the game and refreshes the browser, automated via BrowserSync.
 
 ## Build task parameters
 *`--pwa`* instructs to build a Progressive Web App - will add 842 bytes when zipped.
@@ -62,7 +64,7 @@ Setup is done in the **`package.json`**. Variables you have to modify:
 ## Filesize overview:
 Currently the ZIP output of the default *`npm:build`* is 3.34 KB (3,430 bytes), of which:
  - 1,312 bytes are occupied by the interactive demo (ship.png 612 bytes + scripts)
- - 900 bytes for PWA functionality (serviceworker + webmanifest + initialization scripts)
+ - 842 bytes for PWA functionality (serviceworker + webmanifest + initialization scripts)
  - 256 bytes for ico.svg (an icon is needed for PWA functionality)
  - 900 bytes for an index.html with a default basic structure
 
