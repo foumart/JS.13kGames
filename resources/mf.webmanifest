@@ -12,5 +12,5 @@
 		}
 	],
 	"display": "fullscreen",
-	"orientation": "any"
+	"orientation": "{ORIENTATION}"
 }

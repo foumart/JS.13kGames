@@ -27,6 +27,7 @@ const version = packageJson.version;
 const iconExtension = packageJson.iconExtension;
 const iconType = packageJson.iconType;
 const iconSize = packageJson.iconSize;
+const orientation = packageJson.orientation;
 
 // Script Arguments:
 // --dir: set the output directory
@@ -166,6 +167,7 @@ function mf(callback) {
 			.pipe(replace('{ICON_EXTENSION}', iconExtension, replaceOptions))
 			.pipe(replace('{ICON_TYPE}', iconType, replaceOptions))
 			.pipe(replace('{ICON_SIZE}', iconSize, replaceOptions))
+			.pipe(replace('{ORIENTATION}', orientation, replaceOptions))
 			.pipe(htmlmin({ collapseWhitespace: true }))
 			.pipe(dest(dir + '/'))
 			.on('end', callback);
