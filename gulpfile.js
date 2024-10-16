@@ -10,11 +10,12 @@ const argv = require('yargs').argv;
 const gulpif = require('gulp-if');
 const advzip = require('gulp-advzip');
 const roadroller = require('roadroller');
+const glob = require('glob');
 const packageJson = require('./package.json');
 
 // import ES modules
 let imagemin, optipng, svgo, gifsicle, mozjpeg;
-let del, zip, js, css;
+let del, zip, js, css, scripts;
 
 const replaceOptions = { logs: { enabled: false } };
 const timestamp = getDateString();
@@ -36,10 +37,13 @@ const dir = argv.dir || 'public';
 // --test: don't use versioned zip file - useful for fast testing.
 const test = argv.test != undefined ? true : false;
 
-// --pwa: enable progressive web app - use a service worker, webmanifest and pwa initialization scripts. Adds 842 bytes.
+// --pwa: enable progressive web app - use a service worker, webmanifest and pwa initialization scripts. Adds ~850 bytes.
 const pwa = argv.pwa != undefined ? true : false;
 
-// --debug: display service worker logs
+// --raw: don't pack the js files at all
+const raw = argv.raw != undefined ? true : false;
+
+// --debug: pack but don't compress js files, display service worker logs as well
 const debug = argv.debug != undefined ? true : false;
 
 // --roadroll: use a JS packer for up to 15% compression
@@ -66,12 +70,17 @@ const social = argv.social != undefined || argv.all != undefined ? `
 // Prepare a web icon to be used by html and pwa
 function ico(callback) {
 	(async () => {
+		// Keep the imports, even if not copying an icon, the gulp image modules are needed for the assets.
 		const gulpImageminModule = await import('gulp-imagemin');
 		imagemin = gulpImageminModule.default;
 		gifsicle = gulpImageminModule.gifsicle;
 		mozjpeg = gulpImageminModule.mozjpeg;
 		optipng = gulpImageminModule.optipng;
 		svgo = gulpImageminModule.svgo;
+
+		if (!mobile) {
+			return callback();
+		}
 
 		if (iconExtension == "svg") {
 			src(['src/ico.svg'], { allowEmpty: true })
@@ -122,7 +131,7 @@ function sw(callback) {
 	}
 }
 
-// Compile the pwa initialization script (if needed) as well as game logic scripts
+// Compile (or copy if raw) the pwa initialization script as well as game logic scripts
 function app(callback) {
 	const scripts = [
 		'src/scripts/*.js'
@@ -130,32 +139,53 @@ function app(callback) {
 	if (pwa) {
 		scripts.unshift('resources/sw_init.js');
 	}
+	scripts.unshift('resources/app_init.js');
 
-	src(scripts, { allowEmpty: true })
-		.pipe(gulpif(pwa, replace('let _debug;', `let _debug = ${debug ? 'true' : 'false'};`, replaceOptions)))
-		.pipe(gulpif(pwa, replace('service_worker', 'sw', replaceOptions)))
-		.pipe(gulpif(!pwa, replace('function init', 'window.addEventListener("load",init);function init', replaceOptions)))
-		.pipe(gulpif(!debug,
-			closureCompiler({
-				compilation_level: 'ADVANCED_OPTIMIZATIONS',
-				warning_level: 'QUIET',
-				language_in: 'ECMASCRIPT6',
-				language_out: 'ECMASCRIPT6',
-				externs: 'resources/externs.js'
-			})
-		))
-		.pipe(concat('app.js'))
-		.pipe(dest(dir + '/tmp/'))
-		.on('end', callback);
+	if (raw) {
+		// If raw is true, just copy the source files
+		src(scripts, { allowEmpty: true })
+			//.pipe(replace('_debug', 'debug', replaceOptions))
+			.pipe(replace('let _debug;', `let _debug = ${debug || raw ? 'true' : 'false'};`, replaceOptions))
+			.pipe(gulpif(pwa, replace('service_worker', 'sw', replaceOptions)))
+			.pipe(replace('{VERSION}', version, replaceOptions))
+			.pipe(gulpif(!pwa, replace('function init', 'window.addEventListener("load",init);function init', replaceOptions)))
+			.pipe(dest(dir + '/src/scripts/'))
+			.on('end', callback);
+	} else {
+		// Otherwise compile
+		src(scripts, { allowEmpty: true })
+			.pipe(replace('let _debug;', `let _debug = ${debug || raw ? 'true' : 'false'};`, replaceOptions))
+			.pipe(gulpif(pwa, replace('service_worker', 'sw', replaceOptions)))
+			.pipe(replace('{VERSION}', version, replaceOptions))
+			.pipe(gulpif(!pwa, replace('function init', 'window.addEventListener("load",init);function init', replaceOptions)))
+			.pipe(gulpif(!debug,
+				closureCompiler({
+					compilation_level: 'ADVANCED_OPTIMIZATIONS',
+					warning_level: 'QUIET',
+					language_in: 'ECMASCRIPT_2017',
+					language_out: 'ECMASCRIPT6',
+					externs: 'resources/externs.js'
+				})
+			))
+			.pipe(concat('app.js'))
+			.pipe(dest(dir + '/tmp/'))
+			.on('end', callback);
+	}
 }
 
 // Minify CSS
 function cs(callback) {
-	src('src/styles/*.css', { allowEmpty: true })
-		.pipe(cleanCSS())
-		.pipe(concat('temp.css'))
-		.pipe(dest(dir + '/tmp/'))
-		.on('end', callback)
+	if (raw) {
+		src('src/styles/*.css', { allowEmpty: true })
+			.pipe(dest(dir + '/src/styles/'))
+			.on('end', callback);
+	} else {
+		src('src/styles/*.css', { allowEmpty: true })
+			.pipe(cleanCSS())
+			.pipe(concat('temp.css'))
+			.pipe(dest(dir + '/tmp/'))
+			.on('end', callback)
+	}
 }
 
 // Prepare web manifest file
@@ -178,11 +208,13 @@ function mf(callback) {
 
 // Read the temporary JS and CSS files and compress the javascript with Roadroller
 async function mangle() {
-	const fs = require('fs');
-	css = fs.readFileSync(dir + '/tmp/temp.css', 'utf8');
-	js = fs.readFileSync(dir + '/tmp/app.js', 'utf8');
+	if (!raw) {
+		const fs = require('fs');
+		css = fs.readFileSync(dir + '/tmp/temp.css', 'utf8');
+		js = fs.readFileSync(dir + '/tmp/app.js', 'utf8');
+	}
 
-	if (!debug) {
+	if (roadroll && !debug) {
 		if (roadroll) {
 			const packer = new roadroller.Packer(
 				[{
@@ -213,21 +245,40 @@ async function mangle() {
 	}
 }
 
-// Inline JS and CSS into index.html
+// Inline JS and CSS into index.html or just include them if raw is specified
 function pack(callback) {
 	let stream = src('src/index.html', { allowEmpty: true });
+	let scriptTags, cssTags;
+
+	if (raw) {
+		// Use glob to get all JavaScript files
+		const scriptFiles = glob.sync('src/scripts/*.js').reverse();
+		// Add initialization scripts as well
+		if (pwa) {
+			scriptFiles.unshift('src/scripts/sw_init.js');
+		}
+		scriptFiles.unshift('src/scripts/app_init.js');
+
+		// Create script tags for each JavaScript file in the array
+		scriptTags = scriptFiles.map(scriptFile => `<script src="${scriptFile.replace(/\\/g, '/')}"></script>`).join('\n\t');
+
+		// Use glob to get all CSS files matching the pattern
+		const cssFiles = glob.sync('src/styles/*.css');
+		// Create link tags for each CSS file
+		cssTags = cssFiles.map(cssFile => `<link rel="stylesheet" href="${cssFile.replace(/\\/g, '/')}">`).join('\n\t');
+	}
 
 	stream
+		.pipe(gulpif(!pwa, replace('<link rel="icon" type="{ICON_TYPE}" sizes="any" href="ico.{ICON_EXTENSION}">', '', replaceOptions)))
+		.pipe(gulpif(!pwa, replace('<link rel="manifest" href="mf.webmanifest">', '', replaceOptions)))
 		.pipe(replace('{TITLE}', title, replaceOptions))
 		.pipe(replace('{ICON_EXTENSION}', iconExtension, replaceOptions))
 		.pipe(replace('{ICON_TYPE}', iconType, replaceOptions))
 		.pipe(replace('rep_social', social != false ? social : '', replaceOptions))
 		.pipe(replace('rep_mobile', mobile != false ? mobile : '', replaceOptions))
-		.pipe(gulpif(!pwa, replace('<link rel="manifest" href="mf.webmanifest">', '', replaceOptions)))
 		.pipe(htmlmin({ collapseWhitespace: true, removeComments: true, removeAttributeQuotes: true }))
-		.pipe(replace('"', '', replaceOptions))
-		.pipe(replace('rep_css', '<style>' + css + '</style>', replaceOptions))
-		.pipe(replace('rep_js', '<script>' + js + '</script>', replaceOptions))
+		.pipe(replace('rep_css', raw ? cssTags : '<style>' + css + '</style>', replaceOptions))
+		.pipe(replace('rep_js', raw ? scriptTags : '<script>' + js + '</script>', replaceOptions))
 		.pipe(concat('index.html'))
 		.pipe(dest(dir + '/'))
 		.on('end', callback);
@@ -244,7 +295,11 @@ function prep(callback) {
 
 // Delete the temporary folder generated during packaging
 function clean(callback) {
-	del(dir + '/tmp/');
+	(async () => {
+		del = (await import('del')).deleteAsync;
+		del(dir + '/tmp/');
+		callback();
+	})();
 	callback();
 }
 
@@ -315,7 +370,8 @@ function getDateString(shorter) {
 
 // Exports
 exports.default = series(prep, ico, sw, app, cs, mf, mangle, assets, pack, clean, archive, check, watch);
-exports.sync = series(app, cs, mangle, assets, pack, clean, reload);
+exports.prod = series(prep, ico, sw, app, cs, mf, mangle, assets, pack, clean, watch);
+exports.sync = series(ico, app, cs, mangle, assets, pack, clean, reload);
 exports.zip = series(archive, check);
 
 /*
