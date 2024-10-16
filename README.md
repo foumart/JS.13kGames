@@ -6,19 +6,23 @@ This template targets the compo's **Mobile** category by providing a convenient 
 
 PWAs at minimum need a service worker script, web manifest and icon files, which increases the final archive size by around a kilobyte.
 
-The template also uses a sophisticated Gulp process to parse JS code with Google Closure Compiler and to pack it along with any CSS into a single minified HTML file. Additional compression is achieved utilizing Roadroller JS packer. Once successfully built the game will be opened in the default browser with BrowserSync live-reload enabled. Any modification in src/ folder will invoke a game reload on the localhost.
+The template also uses a sophisticated Gulp process to parse and compile JS code with Google Closure Compiler and to pack it along with any CSS into a single minified HTML file. Additional compression is achieved utilizing Roadroller JS packer. Once successfully built the game will be opened in the default browser with BrowserSync live-reload enabled. Any modification in src/ folder will invoke a game reload on the localhost.
 
 ## Installation
 Run **`npm install`** to install build dependencies.
 
 ## Tasks
-**`npm build`** builds the game, reports archive size and serves locally with browser sync live reload enabled.
+**`npm build`** builds a mobile PWA with minified and inlined JS and CSS into a single HTML (except for the PWA assets), reports archive size and serves the game locally with browser sync live reload enabled.
 
-**`npm debug`** builds the game without any minifying for easier debugging. Includes detailed console logs.
+**`npm prod`** same as `npm build`, but additionally compresses JS with Roadroller. Builds for production.
 
-**`npm test`** repacks the contents of the public folder to report archive filesize.
+**`npm debug`** builds the game into a single HTML with inlined JS but without minifying. Sets a global `_debug` variable to provide detailed console logs of the Service Worker processes.
 
-**`npm sync`** rebuilds the game and refreshes the browser, automated via BrowserSync.
+**`npm raw`** builds the game with copied JS and CSS files directly into `src/scripts` and `src/styles` for easier debugging.
+
+**`npm test`** repacks the contents of the public folder to report the archive filesize.
+
+**`npm sync`** quickly repacks the game and refreshes the browser, automated via BrowserSync.
 
 ## Build task parameters
 *`--pwa`* instructs to build a Progressive Web App - will add 842 bytes when zipped.
@@ -62,10 +66,12 @@ Setup is done in the **`package.json`**. Variables you have to modify:
 - icon size - *used in the webmanifest file*
 
 ## Filesize overview:
-Currently the ZIP output of the default *`npm:build`* is 3.34 KB (3,430 bytes), of which:
+Currently the ZIP output of the default *`npm:build`* is around 3KB, of which:
  - 1,312 bytes are occupied by the interactive demo (ship.png 612 bytes + scripts)
  - 842 bytes for PWA functionality (serviceworker + webmanifest + initialization scripts)
  - 256 bytes for ico.svg (an icon is needed for PWA functionality)
- - 900 bytes for an index.html with a default basic structure
 
-Regarding the icon - it needs to be at least 144x144 pixels in size minimum. Using the PNG format will provide no less than 500 bytes image, so the SVG format remains best in terms of compression.
+## Note:
+ - *`npm:prod`* will be beneficial only if there is enough JS source supplied for compression.
+ - PWA functionallity can be tested only with a secure (https) connection.
+ - the icon needs to be at least 144x144 pixels in size. Using the PNG format will provide no less than 500 bytes image, so the SVG format remains best in terms of compression.
